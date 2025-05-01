@@ -8,7 +8,7 @@ import sys
 
 
 def load_sk_motion():
-    retarget_motion_path = 'data/retarget_npy/predicted_data1.npy'
+    retarget_motion_path = 'data/retarget_npy/walking_smpl_out.npy'
     motion = SkeletonMotion.from_file(retarget_motion_path)
     return motion
 

@@ -1,11 +1,17 @@
 import numpy as np
-import torch
+from pathlib import Path
 
-base_path = 'data/raw_data/results.npy'
-data_dict = np.load(base_path, allow_pickle=True).item()
+folder = Path("data/retarget_npy/dof_data")        # 存放 *.npy 的目录
+pattern = "retarget_final*.npy"                    # 文件名模式
 
-# 将 GPU 上的 Tensor 移到 CPU，然后转成 numpy
-motion_data = data_dict['motion_cont6d'][:, 0:135].cpu().numpy()
+# 把文件按编号 0,1,2,… 排好序
+files = sorted(folder.glob(pattern),
+               key=lambda p: int(p.stem.replace("retarget_final", "")))
 
-# 保存为 .npy 文件
-np.save('input_data.npy', motion_data)
+arrays = [np.load(f, allow_pickle=True) for f in files]   # 读入为 list[np.ndarray]
+big_data = np.concatenate(arrays, axis=0)                 # 在第 0 维拼接
+
+out_path = folder / "retarget_final_all.npy"
+np.save(out_path, big_data)
+
+print(f"concatenated shape {big_data.shape}  →  {out_path}")

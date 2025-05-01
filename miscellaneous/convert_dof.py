@@ -6,7 +6,7 @@ import torch
 import numpy as np
 
 from MotionLib.motion_lib import MotionLib
-from utils import torch_utils
+from MotionLib.utils import torch_utils
 
 
 
@@ -32,7 +32,7 @@ _key_body_ids = [0, 1, 2, 3, # Hip, Knee, Ankle
 
 
 
-file_path = 'data/retarget_npy/walking_smpl_out.npy'
+file_path = 'data/retarget_npy/predicted_data1.npy'
 
 motion_lib_class = MotionLib(motion_file=file_path,
                              dof_body_ids=_dof_body_ids,
@@ -77,4 +77,4 @@ np.save(save_path, output)
 print("Saved to", save_path)
 
 
-print(dof_pos[0])
+print(key_pos.shape)
